@@ -6,8 +6,7 @@
     "id": "9ptJnHKTF-RA"
    },
    "source": [
-    "**Cell 1**\n",
-    "\n",
+    "**Cell 1**\n\n",
     "First, we start by importing all the necessary Python libraries and tools needed for building a diabetes prediction model using logistic regression. The first group of imports (`pandas`, `numpy`) handles data manipulation and numerical operations, with pandas used for loading and cleaning the diabetes dataset in a tabular format, and numpy for mathematical computations. The `scikit-learn` imports provide the machine learning functionality: `train_test_split` divides the data into training and testing sets, `LogisticRegression` is the classification algorithm we'll use to predict diabetes, `StandardScaler` standardizes the features (like glucose levels and BMI) to ensure equal weighting, and the metrics (like `roc_auc_score`, `confusion_matrix`) help evaluate model performance. Finally, `matplotlib` and `seaborn` enable visualization of results (ROC curves, confusion matrices). Setting `np.random.seed(42)` ensures reproducibility—meaning if others run this code, they'll get the same results, which is crucial for scientific validation.\n",
     "\n",
     "In the context of diabetes prediction, these tools collectively allow us to:\n",
@@ -27,8 +26,7 @@
     "id": "pEL0p5L58sEf"
    },
    "source": [
-    "**Cell 2**\n",
-    "\n",
+    "**Cell 2**\n\n",
     "## **Diabetes Prediction with Logistic Regression**"
    ]
   },
@@ -48,7 +46,7 @@
     }
    ],
    "source": [
-    "# Cell 1\n",
+    "# Cell 3\n",
     "# Install and import required libraries\n",
     "import sys\n",
     "import subprocess\n",
@@ -103,8 +101,7 @@
     "id": "bcT6qrSn8vAW"
    },
    "source": [
-    "**Cell 4**\n",
-    "\n",
+    "**Cell 4**\n\n",
     "### **Load UCI Dataset**\n",
     "\n",
     "The next step is to loads the Pima Indians Diabetes dataset from a CSV file hosted online, assigns meaningful column names (like 'Glucose' and 'BMI') to better interpret the medical features, and stores it in a pandas DataFrame called `df`. The dataset includes health metrics (e.g., blood pressure, insulin levels) and an 'Outcome' column indicating diabetes diagnosis (1 = diabetic, 0 = non-diabetic). The `try-except` block ensures graceful error handling if the download fails, while `df.head()` displays the first few rows for a quick data sanity check, confirming successful loading with the dataset's shape (number of rows and columns). This step is crucial as it prepares the raw data for cleaning and analysis in the diabetes prediction pipeline."
@@ -333,7 +330,7 @@
     }
    ],
    "source": [
-    "# Cell 2\n",
+    "# Cell 5\n",
     "# Load dataset from CSV file\n",
     "url = \"https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv\"\n",
     "column_names = [\n",
@@ -385,7 +382,7 @@
     }
    ],
    "source": [
-    "# Cell 3\n",
+    "# Cell 6\n",
     "sns.regplot(y='BloodPressure', x='Glucose', data=df)"
    ]
   },
@@ -395,8 +392,7 @@
     "id": "xXWDOc2C8wTF"
    },
    "source": [
-    "**Cell 7**\n",
-    "\n",
+    "**Cell 7**\n\n",
     "### **Clean Data (pandas)**\n",
     "\n",
     "Next is to identify and handle biologically impossible zero values in key medical features (like Glucose, BloodPressure) by first counting and displaying their occurrences, then replacing zeros with `NaN` to mark them as missing. Fill these missing values with the median of each respective column, which preserves the data distribution while removing invalid entries. Finally, verifies the cleaning process by checking for remaining missing values and displaying descriptive statistics (mean, percentiles, etc.) to confirm the dataset is now properly structured for accurate diabetes prediction modeling. This step is essential because medical measurements like glucose levels cannot realistically be zero, and imputing with medians prevents skewed analysis while maintaining data integrity."
@@ -694,7 +690,7 @@
     }
    ],
    "source": [
-    "# Cell 4\n",
+    "# Cell 8\n",
     "# Check for zeros in features where 0 is biologically impossible\n",
     "zero_features = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']\n",
     "print(\"Number of zeros before cleaning:\")\n",
@@ -748,7 +744,7 @@
     }
    ],
    "source": [
-    "# Cell 5\n",
+    "# Cell 9\n",
     "sns.countplot(data=df, x=\"Pregnancies\")"
    ]
   },
@@ -758,8 +754,7 @@
     "id": "zuVd_10UPaR2"
    },
    "source": [
-    "**Cell 10**\n",
-    "\n",
+    "**Cell 10**\n\n",
     "### **Derivation of Logistic Regression Model for Diabetes Prediction**\n",
     "\n",
     "#### **1. Problem Setup**\n",
@@ -833,20 +828,10 @@
     "id": "hCFSODMJHc8T"
    },
    "source": [
-    "**Cell 11**\n",
-    "\n",
+    "**Cell 11**\n\n",
     "### **Train Model (Logistic Regression)**\n",
     "\n",
     "To train the dataset, we have to first separating the features (X) from the target variable (y), where X contains all medical measurements (like glucose levels and BMI) and y contains the diabetes outcomes (1 or 0). It then splits the data into **training (80%) and testing (20%)** sets using `train_test_split`, ensuring the class distribution (diabetic vs. non-diabetic) is preserved in both sets through stratification (`stratify=y`). Next, it standardizes the features using `StandardScaler`, which transforms the data to have a mean of 0 and standard deviation of 1, improving model performance by ensuring all features are on the same scale—critical for logistic regression. The training data is fit-transformed to learn the scaling parameters, while the test data is only transformed to avoid data leakage, with the final print statement confirming the sizes of the resulting datasets. This step is essential for building a reliable and generalizable diabetes prediction model."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "One thing I want to remember from this section:\n",
-    "\n",
-    "Logistic Regression predicts whether something belongs to one class or another."
    ]
   },
   {
@@ -870,7 +855,7 @@
     }
    ],
    "source": [
-    "# Cell 6\n",
+    "# Cell 12\n",
     "# Separate features and target\n",
     "X = df.drop('Outcome', axis=1)\n",
     "y = df['Outcome']\n",
@@ -894,8 +879,7 @@
     "id": "AZUL9vlrCAgu"
    },
    "source": [
-    "**Cell 13**\n",
-    "\n",
+    "**Cell 13**\n\n",
     "### **Evaluate (ROC-AUC)**\n",
     "\n",
     "Next, we initialize and train a logistic regression model for diabetes prediction using the standardized training data (X_train_scaled, y_train). The model is configured with L2 regularization (penalty='l2') to prevent overfitting, a regularization strength (C=1.0) that balances model complexity with fit quality, and the 'liblinear' solver which is efficient for smaller datasets. The max_iter=1000 ensures the model has enough iterations to converge. After training, the code extracts and displays the model coefficients, which represent the weight and direction (positive or negative) of each feature's influence on diabetes prediction, sorted by importance magnitude. These coefficients provide interpretable insights into which medical factors (like glucose levels or BMI) most significantly contribute to diabetes risk, with positive values indicating higher risk and negative values suggesting protective effects. The random_state=42 parameter ensures reproducible results across runs."
@@ -1152,7 +1136,7 @@
     }
    ],
    "source": [
-    "# Cell 7\n",
+    "# Cell 14\n",
     "# Initialize and train model\n",
     "model = LogisticRegression(\n",
     "    penalty='l2',         # Ridge regularization\n",
@@ -1199,7 +1183,7 @@
     }
    ],
    "source": [
-    "# Cell 8\n",
+    "# Cell 15\n",
     "model.coef_"
    ]
   },
@@ -1246,7 +1230,7 @@
     }
    ],
    "source": [
-    "# Cell 9\n",
+    "# Cell 16\n",
     "from google.colab import sheets\n",
     "sheet = sheets.InteractiveSheet(df=coeffs)"
    ]
@@ -1257,8 +1241,7 @@
     "id": "fWZrmuenHu51"
    },
    "source": [
-    "**Cell 17**\n",
-    "\n",
+    "**Cell 17**\n\n",
     "### **Results**\n",
     "\n",
     "We evaluates the trained logistic regression model's performance on the test data by first generating both class predictions (y_pred) and probability estimates (y_proba) for diabetes outcomes. It then calculates key metrics including accuracy (overall correctness), precision (correct positive predictions), recall (ability to detect actual cases), F1-score (balance of precision/recall), and ROC-AUC (model discrimination ability). The classification report provides a comprehensive summary of these metrics for both classes, while the confusion matrix visualization (created with seaborn) clearly displays true/false positives and negatives, offering an intuitive understanding of where the model succeeds or fails in classifying diabetic versus non-diabetic patients. Together, these evaluations quantify the model's diagnostic effectiveness and highlight potential areas for improvement in predicting diabetes from clinical features."
@@ -1312,7 +1295,7 @@
     }
    ],
    "source": [
-    "# Cell 10\n",
+    "# Cell 18\n",
     "# Generate predictions\n",
     "y_pred = model.predict(X_test_scaled)\n",
     "y_proba = model.predict_proba(X_test_scaled)[:, 1]  # Probabilities for class 1\n",
@@ -1352,8 +1335,7 @@
     "id": "xLpw4IrEH6mv"
    },
    "source": [
-    "**Cell 19**\n",
-    "\n",
+    "**Cell 19**\n\n",
     "Finally, we creates a Receiver Operating Characteristic (ROC) curve to visualize the diagnostic performance of the diabetes prediction model by plotting the true positive rate (sensitivity) against the false positive rate (1-specificity) across all classification thresholds, where the curve's closeness to the top-left corner indicates better predictive power. The dashed diagonal line represents random guessing (AUC = 0.5), while the orange curve shows the model's actual performance with its Area Under the Curve (AUC) score displayed in the legend, providing a quantitative measure of how well the model distinguishes between diabetic and non-diabetic cases. The plot's axes are properly labeled and scaled (0-1 range) for clear interpretation, with the AUC value embedded in the legend to directly communicate the model's classification effectiveness at a glance."
    ]
   },
@@ -1381,7 +1363,7 @@
     }
    ],
    "source": [
-    "# Cell 11\n",
+    "# Cell 20\n",
     "# Generate ROC curve data\n",
     "fpr, tpr, thresholds = roc_curve(y_test, y_proba)\n",
     "\n",
@@ -1404,8 +1386,7 @@
     "id": "wJ5Wf_-HFuQr"
    },
    "source": [
-    "**Cell 21**\n",
-    "\n",
+    "**Cell 21**\n\n",
     "### **Interpretation of Results**\n",
     "\n",
     "**Model Metrics:**\n",
@@ -1437,8 +1418,7 @@
     "id": "S_c9UJ5Gtthl"
    },
    "source": [
-    "**Cell 22**\n",
-    "\n",
+    "**Cell 22**\n\n",
     "##Deep Learning Implementation"
    ]
   },
@@ -1450,7 +1430,7 @@
    },
    "outputs": [],
    "source": [
-    "# Cell 12\n",
+    "# Cell 23\n",
     "# prompt: implement a neural network with two hidden layers on the uci dataset for predicting diabetes\n",
     "import tensorflow as tf\n",
     "from tensorflow import keras\n",
@@ -1625,7 +1605,7 @@
     }
    ],
    "source": [
-    "# Cell 13\n",
+    "# Cell 24\n",
     "# Build the Sequential model\n",
     "model_nn = Sequential([\n",
     "    # Input layer with 8 features and first hidden layer with 16 neurons\n",
@@ -1687,7 +1667,7 @@
     }
    ],
    "source": [
-    "# Cell 14\n",
+    "# Cell 25\n",
     "# Evaluate the model on the test data\n",
     "loss, accuracy_nn = model_nn.evaluate(X_test_scaled, y_test, verbose=0)\n",
     "\n",
@@ -1783,7 +1763,7 @@
     }
    ],
    "source": [
-    "# Cell 15\n",
+    "# Cell 26\n",
     "print(\"\\nNeural Network Classification Metrics:\")\n",
     "print(f\"Accuracy:  {accuracy_nn:.4f}\")\n",
     "print(f\"Precision: {precision_nn:.4f}\")\n",
@@ -1840,15 +1820,6 @@
     "plt.ylabel('Accuracy')\n",
     "plt.legend()\n",
     "plt.show()"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "One thing I want to remember from this section:\n",
-    "\n",
-    "Neural networks learn patterns by adjusting weights over many training cycles called epochs."
    ]
   }
  ],
